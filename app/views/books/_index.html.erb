@@ -1,3 +1,6 @@
+<%= link_to '新しい順', books_path(latest: "true") %>
+| <%= link_to '評価の高い順', books_path(star_count: "true") %>
+
 <table class='table table-hover table-inverse'>
   <thead>
     <tr>
@@ -24,11 +27,11 @@
     <p>
       <td><%= link_to "#{book.book_comments.count} コメント", book_path(book.id) %></td>
     </p>
-      
+
       <td>
-        <%= render "static.rate", book: book %>
+        <%= render "books/static.rate", book: book %>
       </td>
-      
+
       </tr>
     <% end %>
   </tbody>
