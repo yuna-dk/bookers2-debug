@@ -8,6 +8,10 @@
     <%= f.text_area :body, class: 'form-control book_body' %>
   </div>
 
+  <!--タグについての記述-->
+  <label>(半角スペースで区切ると複数タグ登録できます)</label>
+        <%= f.text_field :name,value: @tag_list, class: 'form-control' %>
+
   <!--starについての記述-->
   <% if book.id.nil? %>
     <div class="form-group" id="star">
@@ -19,9 +23,9 @@
       $(document).on('turbolinks:load', function() {
         let elem = document.querySelector('#post_raty');
         if (elem == null) return;
-  
+
         elem.innerHTML = ""
-        let opt = {  
+        let opt = {
           starOn: "<%= asset_path('star-on.png') %>",
           starOff: "<%= asset_path('star-off.png') %>",
           starHalf: "<%= asset_path('star-half.png') %>",
@@ -35,7 +39,7 @@
       <%= render "static.rate", book: book %>
     </div>
   <% end %>
-  
+
   <div class="form-group">
     <%= f.submit class: 'btn btn-success' %>
   </div>
