@@ -1,4 +1,5 @@
 class BooksController < ApplicationController
+  before_action :authenticate_user!
   before_action :is_matching_login_user, only: [:edit, :update]
 
   def show
@@ -10,7 +11,7 @@ class BooksController < ApplicationController
   def index
     @books = Book.all
     @book = Book.new()
-    
+
     if params[:latest]
       @books = Book.latest
     elsif params[:star_count]
@@ -18,13 +19,15 @@ class BooksController < ApplicationController
     else
       @books = Book.all
     end
-    
+
   end
 
   def create
     @book = Book.new(book_params)
     @book.user_id = current_user.id
+    tag_list = params[:book][:tag_name].split(',')
     if @book.save
+      @book.save_tags(tag_list)
       redirect_to book_path(@book), notice: "You have created book successfully."
     else
       @books = Book.all

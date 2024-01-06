@@ -9,8 +9,11 @@
   </div>
 
   <!--タグについての記述-->
-  <label>(半角スペースで区切ると複数タグ登録できます)</label>
-        <%= f.text_field :name,value: @tag_list, class: 'form-control' %>
+  <label>(,で区切ると複数タグ登録できます)</label>
+  <div class="form-group">
+    <%= f.label "Tag" %>
+    <%= f.text_field :tag_name, class: 'form-control book_tag_name' %>
+  </div>
 
   <!--starについての記述-->
   <% if book.id.nil? %>

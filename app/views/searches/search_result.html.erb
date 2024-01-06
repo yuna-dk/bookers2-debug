@@ -19,7 +19,41 @@
         </tr>
       <% end %>
     </tbody>
-  <% else %>
+  <% elsif @range == 'tag' %>
+    <h2>Books search for "<%= @word %>"</h2>
+    <thead>
+    <tr>
+      <th></th>
+      <th>Title</th>
+      <th>Opinion</th>
+      <th>Tag</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @tags.each do |tag| %>
+      <tr>
+        <td><%= link_to book.user do %>
+          <%= image_tag book.user.get_profile_image, size: '50x50' %>
+          <% end %>
+        </td>
+        <td><%= link_to book.title,book, class: "book_#{book.id}" %></td>
+        <td><%= book.body %></td>
+        <td>
+          <% book.tags.each do |tag| %>
+            <li style="list-style: none;"><%= link_to tag.name, search_path(content: tag.name, model:"tag", method: "perfect") %></li>
+          <% end %>
+        </td>
+        <td class=<%= "favorite-" + book.id.to_s %> >
+            <%= render "favorites/btn", book: book %>
+        </td>
+        <td><%= render "book_comments/counter", book: book %></td>
+        <td><%= render "books/static_rate", book: book %></td>
+      </tr>
+    <% end %>
+  </tbody>
+
+  <% elsif @range == "book" %>
     <!--検索対象モデルがBookの時 -->
     <h2>Books search for "<%= @word %>"</h2>
     <thead>
