@@ -17,6 +17,7 @@
           <thead>
             <tr>
               <th>
+                <% if user_signed_in? %>
                 <div class="d-flex justify-content-center mb-2">
                   <%= render 'searches/search' %>
                 </div>
@@ -25,6 +26,7 @@
                 <div class="d-flex justify-content-center mb-1">
                   <%= render 'searches/tag_form' %>
                 </div>
+                <% end %>
               </th>
             </tr>
           </thead>

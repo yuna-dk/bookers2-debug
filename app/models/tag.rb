@@ -1,22 +1,24 @@
 class Tag < ApplicationRecord
   has_many :book_tags, dependent: :destroy, foreign_key: 'tag_id'
   has_many :books, through: :book_tags
-  
+
   scope :merge_books, -> (tags){ }
-  
-  def self.search_books_for(content, method)
-    
-    if method == 'perfect'
-      tags = Tag.where(name: content)
-    elsif method == 'forward'
-      tags = Tag.where('name LIKE ?', content + '%')
-    elsif method == 'backward'
-      tags = Tag.where('name LIKE ?', '%' + content)
+
+  def self.looks(search, word)
+
+    if search == "perfect_match"
+      @tags = Tag.where("name LIKE?","#{word}")
+    elsif search == "forward_match"
+      @tags = Tag.where("name LIKE?","#{word}%")
+    elsif search == "backward_match"
+      @tags = Tag.where("name LIKE?","%#{word}")
+    elsif search == "partial_match"
+      @tags = Tag.where("name LIKE?","%#{word}%")
     else
-      tags = Tag.where('name LIKE ?', '%' + content + '%')
+      @tags = Tag.all
     end
-    
-    return tags.inject(init = []) {|result, tag| result + tag.books}
-    
+
+    return @tags.inject(init = []) {|result, tag| result + tag.books}
+
   end
 end
